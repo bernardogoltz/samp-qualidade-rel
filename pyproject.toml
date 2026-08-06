@@ -68,3 +68,10 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 python_version = "3.12"
 files = ["src"]
 strict = true
+
+# O pyarrow não publica py.typed. O uso aqui é pontual (construir tipos e converter arrays na
+# normalização), então tratá-lo como não tipado custa pouco — ao contrário do pandas, que
+# atravessa o módulo inteiro e por isso ganhou stubs de verdade.
+[[tool.mypy.overrides]]
+module = ["pyarrow.*"]
+ignore_missing_imports = true

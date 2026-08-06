@@ -5,8 +5,8 @@ não aparece no cabeçalho real. Onde dicionário e arquivo divergem, **manda o 
 que se vai ler. As divergências ficam registradas (`nome_dicionario`, `CAMPOS_SO_NO_DICIONARIO`)
 porque são elas próprias um achado de qualidade, a ser reportado à ANEEL.
 
-Este módulo é deliberadamente sem dependências: a leitura (Polars) mapeia estes tipos para os dela,
-e não o contrário. Assim o contrato continua testável sem engine de dados.
+Este módulo é deliberadamente sem dependências: a normalização (pandas/pyarrow) mapeia estes tipos
+para os dela, e não o contrário. Assim o contrato continua testável sem engine de dados.
 """
 
 from __future__ import annotations
@@ -19,6 +19,9 @@ from samp_dq.errors import CampoDesconhecidoError
 
 #: Separador de campos do CSV publicado (campos entre aspas duplas).
 SEPARADOR = ";"
+
+#: Sufixo da coluna que guarda o texto original (ver `Campo.preservar_raw`).
+SUFIXO_RAW = "_raw"
 
 #: Encoding de origem. O dicionário diz "Latin-1", mas o arquivo usa a extensão Windows-1252
 #: (aspas curvas, travessão). Decodificar como cp1252 é mais estrito: latin-1 aceita qualquer
@@ -50,6 +53,13 @@ class Campo:
     escala: int | None = None
     #: Campo de domínio: os valores distintos são catalogados em `dominios-observados-{ano}.json`.
     dominio: bool = False
+    #: Guardar o texto original em `{nome}_raw` no Parquet.
+    #:
+    #: Só para os campos cuja regra precisa avaliar o original em **toda** linha, não apenas nas
+    #: que falham a tipagem: DQ-VAL-014 julga o formato decimal e DQ-VAL-011 os espaços de
+    #: preenchimento. Onde basta evidência da falha, o relatório de normalização guarda exemplos
+    #: — dobrar o Parquet para os 18 campos não se paga.
+    preservar_raw: bool = False
     #: Grafia do dicionário, quando difere da do arquivo.
     nome_dicionario: str = ""
 
@@ -107,6 +117,10 @@ class Esquema:
     @property
     def campos_de_dominio(self) -> tuple[str, ...]:
         return tuple(c.nome for c in self.campos if c.dominio)
+
+    @property
+    def campos_com_raw(self) -> tuple[str, ...]:
+        return tuple(c.nome for c in self.campos if c.preservar_raw)
 
     def campo(self, nome: str) -> Campo:
         for campo in self.campos:
@@ -231,6 +245,7 @@ ESQUEMA_SAMP = Esquema(
             _TXT,
             "CNPJ do acessante. Observado com 11 dígitos (CPF) e espaços à direita.",
             tamanho_max=14,
+            preservar_raw=True,  # DQ-VAL-011 avalia os espaços de preenchimento
         ),
         Campo(
             "NomAgenteAcessante",
@@ -270,6 +285,7 @@ ESQUEMA_SAMP = Esquema(
             "Valor da grandeza em DscDetalheMercado. Vem com vírgula decimal no CSV.",
             precisao=20,
             escala=6,
+            preservar_raw=True,  # DQ-VAL-014 avalia o formato decimal original
         ),
     )
 )
@@ -279,6 +295,7 @@ __all__ = [
     "ENCODING_ORIGEM",
     "ESQUEMA_SAMP",
     "SEPARADOR",
+    "SUFIXO_RAW",
     "Campo",
     "Esquema",
     "ResultadoCabecalho",

@@ -83,6 +83,10 @@ class EncodingInvalidoError(IngestaoError):
         super().__init__(f"{caminho} não decodifica como {encoding}: {detalhe}")
 
 
+class EscritaError(IngestaoError):
+    """Falha ao gravar o Parquet de saída."""
+
+
 class CampoDesconhecidoError(SampDQError):
     """O campo pedido não existe no esquema do SAMP."""
 
