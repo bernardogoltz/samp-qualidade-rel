@@ -1,0 +1,29 @@
+docs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Ferramentas
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Dados baixados do SAMP (grandes; regeráveis via `samp-dq baixar`)
+bruto/
+preprocessado/
+*.csv
+*.parquet
+*.part
+*.samp-dq.json
+!tests/fixtures/**
+
+# macOS / editores
+.DS_Store
+.spyproject/

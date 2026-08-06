@@ -1,0 +1,107 @@
+{
+  "help": "https://dadosabertos.aneel.gov.br/api/3/action/help_show?name=package_show",
+  "success": true,
+  "result": {
+    "id": "3e153db4-a503-4093-88be-75d31b002dcf",
+    "name": "samp",
+    "title": "SAMP - Sistema de Acompanhamento de Informações de Mercado para Regulação Econômica",
+    "license_id": "odc-odbl",
+    "license_title": "Open Data Commons Open Database License (ODbL)",
+    "metadata_modified": "2026-07-28T22:06:43.513177",
+    "state": "active",
+    "num_resources": 7,
+    "resources": [
+      {
+        "id": "7dbb8074-9168-4e11-9380-1aab3c9ebba3",
+        "name": "Dicionário de dados",
+        "format": "PDF",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/7dbb8074-9168-4e11-9380-1aab3c9ebba3/download/dd-samp.pdf",
+        "description": "",
+        "last_modified": "2026-07-21T19:53:13.017987",
+        "created": "2022-08-18T19:36:15.361676",
+        "size": 205328,
+        "mimetype": "application/pdf",
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "349ca6b0-8e1b-4e1e-991d-b3d9edf6e368",
+        "name": "samp-2003.csv",
+        "format": "CSV",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/349ca6b0-8e1b-4e1e-991d-b3d9edf6e368/download/samp-2003.csv",
+        "description": "Este conjunto de dados visa apresentar os dados de mercado das distribuidoras de energia elétrica de 2003. Esses dados se referem aos valores de mercado faturados de toda a área de concessão da distribuidora.",
+        "last_modified": "2026-07-28T14:45:33.327473",
+        "created": "2022-08-18T20:15:13.788810",
+        "size": 95913636,
+        "mimetype": "text/csv",
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "ef08fb35-7a0d-445b-b916-d7a09eaeab7f",
+        "name": "samp-2003.parquet",
+        "format": "PARQUET",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/ef08fb35-7a0d-445b-b916-d7a09eaeab7f/download/samp-2003.parquet",
+        "description": "Versao em formato Apache Parquet do recurso samp-2003.csv",
+        "last_modified": "2026-07-28T15:34:27.019127",
+        "created": "2026-07-21T19:38:05.874608",
+        "size": 3223609,
+        "mimetype": null,
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "ff80dd21-eade-4eb5-9ca8-d802c883940e",
+        "name": "samp-2024.csv",
+        "format": "CSV",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/ff80dd21-eade-4eb5-9ca8-d802c883940e/download/samp-2024.csv",
+        "description": null,
+        "last_modified": "2026-07-28T15:53:26.685626",
+        "created": "2024-02-02T19:24:33.889109",
+        "size": 369234945,
+        "mimetype": "text/csv",
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "018d9180-eced-441f-8ede-d205b50421e9",
+        "name": "samp-2024.parquet",
+        "format": "PARQUET",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/018d9180-eced-441f-8ede-d205b50421e9/download/samp-2024.parquet",
+        "description": "Versao em formato Apache Parquet do recurso samp-2024.csv",
+        "last_modified": "2026-07-28T15:53:32.319448",
+        "created": "2026-06-11T21:45:41.009593",
+        "size": 12382937,
+        "mimetype": null,
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "56f1c242-5017-4cef-a365-0a96fffb0f2b",
+        "name": "samp-2026.csv",
+        "format": "CSV",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/56f1c242-5017-4cef-a365-0a96fffb0f2b/download/samp-2026.csv",
+        "description": null,
+        "last_modified": "2026-07-21T19:14:52.231383",
+        "created": "2026-02-19T18:02:53.382941",
+        "size": 183213079,
+        "mimetype": "text/csv",
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      },
+      {
+        "id": "61dfadf0-518b-449e-bb62-fab89da3769b",
+        "name": "samp-2026.parquet",
+        "format": "PARQUET",
+        "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/61dfadf0-518b-449e-bb62-fab89da3769b/download/samp-2026.parquet",
+        "description": "Versao em formato Apache Parquet do recurso samp-2026.csv",
+        "last_modified": "2026-07-21T19:15:50.648595",
+        "created": "2026-06-15T05:45:44.720228",
+        "size": 5984694,
+        "mimetype": null,
+        "package_id": "3e153db4-a503-4093-88be-75d31b002dcf",
+        "state": "active"
+      }
+    ]
+  }
+}
