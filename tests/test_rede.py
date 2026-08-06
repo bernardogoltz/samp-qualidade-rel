@@ -13,31 +13,13 @@ from pathlib import Path
 import pytest
 
 from samp_dq.ckan import CkanClient, Formato
+from samp_dq.ingest.schema import ESQUEMA_SAMP
 
 pytestmark = pytest.mark.rede
 
-CABECALHO_ESPERADO = [
-    "DatGeracaoConjuntoDados",
-    "NumCNPJAgenteDistribuidora",
-    "SigAgenteDistribuidora",
-    "NomAgenteDistribuidora",
-    "NomTipoMercado",
-    "DscModalidadeTarifaria",
-    "DscSubGrupoTarifario",
-    "DscClasseConsumoMercado",
-    "DscSubClasseConsumidor",
-    "DscDetalheConsumidor",
-    "IdeNucleoCeg",
-    "NumCNPJAgenteAcessante",
-    "NomAgenteAcessante",
-    "DscPostoTarifario",
-    "DscOpcaoEnergia",
-    "DscDetalheMercado",
-    "DatCompetencia",
-    "VlrMercado",
-]
-"""Os 18 campos que o arquivo real publica (o dicionário v1.1 lista 19, com `DscClassificacao`,
-que não aparece no CSV; e grafa `IdeNucleoCEG`, enquanto o arquivo usa `IdeNucleoCeg`)."""
+CABECALHO_ESPERADO = list(ESQUEMA_SAMP.nomes)
+"""Comparar contra o esquema, e não contra uma cópia da lista, faz deste teste um contrato: se a
+ANEEL mudar o cabeçalho, ele falha aqui antes de o pré-processamento gerar um Parquet errado."""
 
 
 @pytest.fixture(scope="module")

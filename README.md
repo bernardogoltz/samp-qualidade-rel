@@ -8,8 +8,9 @@ O SAMP publica, mensalmente, um arquivo CSV por ano (2003 até o ano corrente) c
 mercado faturados das distribuidoras de energia elétrica. Os arquivos são grandes (dezenas a centenas
 de MB), vêm em **Latin-1**, separados por `;`, com decimal em vírgula — este módulo cuida disso.
 
-> **Status:** alpha. A camada de acesso ao CKAN (listagem + download) está pronta e testada.
-> Ingestão, perfilamento e o catálogo de regras de qualidade vêm nos próximos incrementos.
+> **Status:** alpha. Prontos: acesso ao CKAN (listagem + download), o contrato do esquema e a
+> leitura do CSV em blocos. Normalização, escrita do Parquet, perfilamento e o catálogo de regras
+> vêm nos próximos incrementos.
 
 ## Instalação
 
@@ -53,6 +54,23 @@ with CkanClient() as cliente:
 
 print(resultado.status, resultado.caminho, resultado.sha256)
 ```
+
+### Ler um CSV bruto
+
+```python
+from samp_dq.ingest import LeitorCsv
+
+leitor = LeitorCsv("bruto/samp-2024.csv")
+for bloco in leitor.blocos():  # DataFrames de 250 mil linhas, tudo como texto
+    ...
+
+print(leitor.relatorio.resumo())  # linhas, blocos e linhas descartadas
+```
+
+A leitura é sempre **em blocos** (`samp-2024.csv` tem 369 MB) e não interpreta nada: decimal com
+vírgula, espaços de preenchimento e tipos chegam crus, porque é sobre o dado original que as regras
+de qualidade precisam decidir. Um cabeçalho fora do contrato aborta a leitura — use `estrito=False`
+para inspecionar um arquivo cujo layout mudou.
 
 ## Desenvolvimento
 

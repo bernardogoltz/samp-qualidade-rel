@@ -6,6 +6,8 @@ possa capturar uma única classe.
 
 from __future__ import annotations
 
+from typing import Any
+
 
 class SampDQError(Exception):
     """Erro base do samp-dq."""
@@ -32,6 +34,71 @@ class CkanRespostaInvalidaError(CkanError):
 
 class RecursoNaoEncontradoError(SampDQError):
     """Nenhum recurso do dataset corresponde ao filtro pedido."""
+
+
+class IngestaoError(SampDQError):
+    """Falha ao ler ou normalizar um arquivo do SAMP."""
+
+
+class ArquivoVazioError(IngestaoError):
+    """O arquivo não tem sequer a linha de cabeçalho."""
+
+    def __init__(self, caminho: object) -> None:
+        self.caminho = caminho
+        super().__init__(f"arquivo vazio: {caminho}")
+
+
+class CabecalhoInvalidoError(IngestaoError):
+    """O cabeçalho não corresponde ao esquema — provável mudança de layout na origem."""
+
+    def __init__(self, caminho: object, resultado: Any) -> None:
+        self.caminho = caminho
+        self.resultado = resultado
+        super().__init__(f"{caminho}: {resultado.resumo()}")
+
+
+class EstruturaInconsistenteError(IngestaoError):
+    """Uma linha de dados é mais larga que o cabeçalho e o parser truncou os campos excedentes.
+
+    Só ocorre quando a linha larga é a **primeira** do arquivo: as demais o parser descarta,
+    informando a posição. Neste caso ele não informa, então a perda não é localizável — daí
+    abortar em vez de contabilizar.
+    """
+
+    def __init__(self, caminho: object) -> None:
+        self.caminho = caminho
+        super().__init__(
+            f"{caminho}: uma linha de dados tem mais campos que o cabeçalho e foi truncada; "
+            "o parser não informa a posição. Releia com estrito=False para inspecionar o arquivo"
+        )
+
+
+class EncodingInvalidoError(IngestaoError):
+    """O arquivo não decodifica no encoding declarado (base da DQ-VAL-015)."""
+
+    def __init__(self, caminho: object, encoding: str, detalhe: str) -> None:
+        self.caminho = caminho
+        self.encoding = encoding
+        self.detalhe = detalhe
+        super().__init__(f"{caminho} não decodifica como {encoding}: {detalhe}")
+
+
+class CampoDesconhecidoError(SampDQError):
+    """O campo pedido não existe no esquema do SAMP."""
+
+    def __init__(self, nome: str, conhecidos: tuple[str, ...] = ()) -> None:
+        self.nome = nome
+        self.conhecidos = conhecidos
+        sugestao = _mais_parecido(nome, conhecidos)
+        dica = f"; você quis dizer '{sugestao}'?" if sugestao else ""
+        super().__init__(f"campo '{nome}' não existe no esquema do SAMP{dica}")
+
+
+def _mais_parecido(nome: str, candidatos: tuple[str, ...]) -> str | None:
+    """A confusão frequente é de caixa (`IdeNucleoCEG` vs. `IdeNucleoCeg`); resolver isso ajuda
+    mais que listar os 18 campos."""
+    alvo = nome.casefold()
+    return next((c for c in candidatos if c.casefold() == alvo), None)
 
 
 class DownloadError(SampDQError):

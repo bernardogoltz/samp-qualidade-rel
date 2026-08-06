@@ -28,6 +28,7 @@ app = typer.Typer(
     add_completion=False,
 )
 
+
 def criar_cliente(**kwargs: Any) -> CkanClient:
     """Ponto de injeção: os testes trocam esta função por um portal simulado."""
     return CkanClient(**kwargs)
