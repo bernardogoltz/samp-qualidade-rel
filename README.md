@@ -4,20 +4,10 @@ Módulo open source em Python para **baixar os arquivos do SAMP e carregá-los n
 Sistema de Acompanhamento de Informações de Mercado para Regulação Econômica, publicado pela ANEEL
 no portal de [dados abertos](https://dadosabertos.aneel.gov.br).
 
-## Por que não basta um `pd.read_csv`
-
 O SAMP publica um CSV por ano, de 2003 até o ano corrente, com os valores de mercado faturados das
-distribuidoras de energia elétrica. Abrir esses arquivos direto dá trabalho:
-
-| Característica | O que acontece sem tratamento |
-|---|---|
-| Encoding **Latin-1/Windows-1252** | `"Serviço público"` vira `"Serviço público"` |
-| Separador `;`, campos entre aspas | `sep=","` lê o arquivo inteiro como uma coluna só |
-| Decimal com **vírgula** (`"783,990000"`) | `VlrMercado` vira texto, não número |
-| **Centenas de MB** (369 MB em 2024) | estoura a memória se lido de uma vez |
-| CNPJ com zeros à esquerda e espaços | `00075805895000` vira `75805895000` |
-
-Este módulo cuida de tudo isso e entrega `DataFrame` tipado ou Parquet.
+distribuidoras de energia elétrica. Os arquivos são grandes (dezenas a centenas de MB), vêm em
+**Latin-1**, separados por `;`, com decimal em vírgula — este módulo cuida disso e entrega
+`DataFrame` tipado ou Parquet.
 
 > **Status:** alpha. Download, leitura, tipagem e escrita do Parquet estão prontos e testados.
 
@@ -255,7 +245,7 @@ O contrato completo das colunas, em código, está em
 
 ## Desempenho
 
-Medido num MacBook Air, com os arquivos reais do portal:
+Medido com os arquivos reais do portal:
 
 | Arquivo | CSV | Parquet | CSV → Parquet | Releitura |
 |---|---:|---:|---:|---:|
