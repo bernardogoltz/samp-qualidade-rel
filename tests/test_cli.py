@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json as _json
 from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,7 @@ from typer.testing import CliRunner
 from samp_dq import cli
 
 CONTEUDO = b"a" * 512
+FIXTURE_CSV = Path(__file__).parent / "fixtures" / "samp-real-amostra.csv"
 
 
 @pytest.fixture
@@ -173,6 +175,105 @@ class TestBaixar:
 
         assert resultado.exit_code == 1
         assert "503" in resultado.output
+        assert "Traceback" not in resultado.output
+
+
+class TestPerfilar:
+    @pytest.fixture
+    def csv(self, tmp_path: Path) -> Path:
+        """A amostra real com nome de arquivo anual, para a CLI deduzir o ano."""
+        destino = tmp_path / "bruto" / "samp-2024.csv"
+        destino.parent.mkdir()
+        destino.write_bytes(FIXTURE_CSV.read_bytes())
+        return destino
+
+    def test_grava_parquet_e_os_dois_jsons(
+        self, runner: CliRunner, csv: Path, tmp_path: Path
+    ) -> None:
+        saida = tmp_path / "preprocessado"
+        resultado = runner.invoke(
+            cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)]
+        )
+
+        assert resultado.exit_code == 0, resultado.output
+        assert (saida / "samp-2024.parquet").exists()
+        assert (saida / "perfil-2024.json").exists()
+        assert (saida / "dominios-observados-2024.json").exists()
+
+    def test_o_perfil_traz_as_contagens_do_arquivo(
+        self, runner: CliRunner, csv: Path, tmp_path: Path
+    ) -> None:
+        saida = tmp_path / "preprocessado"
+        runner.invoke(cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)])
+
+        perfil = _json.loads((saida / "perfil-2024.json").read_text(encoding="utf-8"))
+        assert perfil["linhasTotais"] == 24
+        assert perfil["ano"] == 2024
+        assert perfil["normalizacoes"]["encodingConvertido"] == "cp1252 -> utf-8"
+
+    def test_segunda_execucao_informa_cache(
+        self, runner: CliRunner, csv: Path, tmp_path: Path
+    ) -> None:
+        saida = tmp_path / "preprocessado"
+        runner.invoke(cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)])
+        resultado = runner.invoke(
+            cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)]
+        )
+
+        assert resultado.exit_code == 0
+        assert "cache" in resultado.stdout.lower()
+
+    def test_forcar_refaz_o_perfil(self, runner: CliRunner, csv: Path, tmp_path: Path) -> None:
+        saida = tmp_path / "preprocessado"
+        runner.invoke(cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)])
+        antes = (saida / "perfil-2024.json").read_text(encoding="utf-8")
+
+        resultado = runner.invoke(
+            cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida), "--forcar"]
+        )
+
+        assert resultado.exit_code == 0
+        assert "cache" not in resultado.stdout.lower()
+        # Só o carimbo de geração muda; o conteúdo medido é o mesmo insumo.
+        assert (saida / "perfil-2024.json").read_text(encoding="utf-8") != antes
+
+    def test_perfila_um_parquet_direto(self, runner: CliRunner, csv: Path, tmp_path: Path) -> None:
+        saida = tmp_path / "preprocessado"
+        runner.invoke(cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)])
+
+        outra = tmp_path / "auditoria"
+        resultado = runner.invoke(
+            cli.app,
+            ["perfilar", "--entrada", str(saida / "samp-2024.parquet"), "--saida", str(outra)],
+        )
+
+        assert resultado.exit_code == 0
+        perfil = _json.loads((outra / "perfil-2024.json").read_text(encoding="utf-8"))
+        assert perfil["linhasTotais"] == 24
+        # Perfil vindo do Parquet não inventa números de uma normalização que não presenciou.
+        assert perfil["normalizacoes"] == {}
+
+    def test_entrada_inexistente_falha_com_mensagem(
+        self, runner: CliRunner, tmp_path: Path
+    ) -> None:
+        resultado = runner.invoke(
+            cli.app, ["perfilar", "--entrada", str(tmp_path / "nao-existe.csv")]
+        )
+
+        assert resultado.exit_code == 1
+        assert "nao-existe.csv" in resultado.output
+        assert "Traceback" not in resultado.output
+
+    def test_cabecalho_estranho_vira_erro_limpo(self, runner: CliRunner, tmp_path: Path) -> None:
+        estranho = tmp_path / "samp-2024.csv"
+        estranho.write_text("a;b;c\n1;2;3\n", encoding="cp1252")
+
+        resultado = runner.invoke(
+            cli.app, ["perfilar", "--entrada", str(estranho), "--saida", str(tmp_path / "saida")]
+        )
+
+        assert resultado.exit_code == 1
+        assert "cabeçalho" in resultado.output.lower()
         assert "Traceback" not in resultado.output
 
 

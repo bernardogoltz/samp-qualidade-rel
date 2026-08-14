@@ -12,14 +12,25 @@ from __future__ import annotations
 import json as _json
 import sys
 from pathlib import Path
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, NoReturn
 
 import typer
 
 from samp_dq import __version__
+from samp_dq.artefatos import NOME_PERFIL, caminho_artefato, ler_json
 from samp_dq.ckan import CkanClient, Dataset, Formato, Recurso
 from samp_dq.ckan.download import ResultadoDownload, StatusDownload, baixar_recurso
 from samp_dq.errors import SampDQError
+from samp_dq.ingest import LeitorCsv, Normalizador, chave_do_insumo, escrever_parquet
+from samp_dq.perfil import (
+    Origem,
+    Perfil,
+    Perfilador,
+    ano_do_arquivo,
+    gravar_dominios_observados,
+    gravar_perfil,
+    perfilar_parquet,
+)
 
 app = typer.Typer(
     name="samp-dq",
@@ -179,6 +190,86 @@ def _baixar_um(
     return resultado
 
 
+@app.command("perfilar")
+def perfilar(
+    entrada: Annotated[
+        Path, typer.Option("--entrada", help="CSV bruto do SAMP ou Parquet já convertido.")
+    ],
+    saida: Annotated[Path, typer.Option("--saida", help="Pasta dos artefatos.")] = Path(
+        "preprocessado"
+    ),
+    ano: Annotated[
+        int | None, typer.Option("--ano", help="Ano do arquivo; padrão: o do nome.")
+    ] = None,
+    forcar: Annotated[bool, typer.Option("--forcar", help="Ignora o cache local.")] = False,
+) -> None:
+    """Converte o CSV para Parquet e grava o perfil do arquivo.
+
+    Numa passada só: lê, normaliza, grava `samp-{ano}.parquet`, mede e escreve
+    `perfil-{ano}.json` e `dominios-observados-{ano}.json` na pasta de saída.
+    """
+    if not entrada.exists():
+        _falhar(f"não encontrei {entrada}")
+
+    ano = ano if ano is not None else ano_do_arquivo(entrada)
+    chave = chave_do_insumo(entrada)
+
+    if not forcar and _perfil_em_cache(saida, ano, chave):
+        typer.echo(f"perfil-{ano}.json: em cache (insumo inalterado)")
+        return
+
+    try:
+        perfil = _perfilar(entrada, saida, ano, chave, forcar)
+    except SampDQError as erro:
+        _falhar(str(erro))
+
+    typer.echo(perfil.resumo())
+    for caminho in (gravar_perfil(perfil, saida), gravar_dominios_observados(perfil, saida)):
+        typer.echo(f"  {caminho}")
+
+
+def _perfilar(entrada: Path, saida: Path, ano: int | None, chave: str, forcar: bool) -> Perfil:
+    """Perfila a entrada, convertendo-a para Parquet antes quando ela é um CSV."""
+    origem = Origem.do_arquivo(entrada, chave=chave)
+    perfilador = Perfilador()
+
+    if entrada.suffix.lower() == ".parquet":
+        perfilar_parquet(entrada, perfilador=perfilador)
+        return perfilador.perfil(arquivo=entrada, ano=ano, origem=origem)
+
+    leitor = LeitorCsv(entrada)
+    normalizador = Normalizador()
+    destino = saida / f"samp-{ano}.parquet"
+    resultado = escrever_parquet(
+        perfilador.perfilar_blocos(normalizador.normalizar_blocos(leitor.blocos())),
+        destino,
+        chave=chave,
+        forcar=forcar,
+    )
+    typer.echo(resultado.resumo())
+
+    if resultado.reaproveitado:
+        # O Parquet em cache não consumiu os blocos — o perfil sai dele, sem reler o CSV.
+        perfilar_parquet(destino, perfilador=perfilador)
+        return perfilador.perfil(arquivo=entrada, ano=ano, origem=origem)
+
+    return perfilador.perfil(
+        arquivo=entrada,
+        ano=ano,
+        origem=origem,
+        leitura=leitor.relatorio,
+        normalizacao=normalizador.relatorio,
+    )
+
+
+def _perfil_em_cache(saida: Path, ano: int | None, chave: str) -> bool:
+    """Perfil anterior do mesmo insumo torna a execução dispensável (docs/04 §10)."""
+    anterior = ler_json(caminho_artefato(saida, NOME_PERFIL, ano))
+    if not anterior or not chave:
+        return False
+    return bool(anterior.get("origem", {}).get("chaveInsumo") == chave)
+
+
 def _barra(recurso: Recurso) -> Any:
     """Progresso simples em uma linha; evita dependência de widget de terminal."""
 
@@ -195,7 +286,7 @@ def _barra(recurso: Recurso) -> Any:
     return relatar
 
 
-def _falhar(mensagem: str) -> None:
+def _falhar(mensagem: str) -> NoReturn:
     typer.echo(f"erro: {mensagem}", err=True)
     raise typer.Exit(1)
 

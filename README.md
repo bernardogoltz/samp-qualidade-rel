@@ -9,7 +9,8 @@ distribuidoras de energia elétrica. Os arquivos são grandes (dezenas a centena
 **Latin-1**, separados por `;`, com decimal em vírgula — este módulo cuida disso e entrega
 `DataFrame` tipado ou Parquet.
 
-> **Status:** alpha. Download, leitura, tipagem e escrita do Parquet estão prontos e testados.
+> **Status:** alpha. Download, leitura, tipagem, escrita do Parquet e perfilamento estão prontos
+> e testados. A validação contra o catálogo de regras de qualidade é o próximo passo.
 
 ## Instalação
 
@@ -83,6 +84,28 @@ O download é **idempotente**: cada arquivo ganha um sidecar `.samp-dq.json` com
 `Last-Modified`, tamanho e SHA-256. Rodar de novo com o recurso inalterado não baixa nada.
 Downloads interrompidos são retomados via `Range` a partir do `.part` parcial — útil, porque o
 portal derruba a conexão em arquivos grandes.
+
+### Perfilar
+
+```bash
+uv run samp-dq perfilar --entrada bruto/samp-2024.csv --saida preprocessado/2024
+```
+
+Numa passada só, o comando lê o CSV, normaliza, grava `samp-2024.parquet` e mede o arquivo,
+deixando ao lado `perfil-2024.json` e `dominios-observados-2024.json`. Reexecutar sobre o mesmo
+insumo não refaz nada (a chave é o SHA-256 do arquivo de entrada); `--forcar` regrava.
+
+Um Parquet também serve de entrada — o que este módulo gerou ou o que a ANEEL publica:
+
+```bash
+uv run samp-dq perfilar --entrada bruto/samp-2024.parquet --saida auditoria
+```
+
+```
+samp-2024.parquet: 1303447 linhas; 2024-01 a 2024-12; 77914 campo(s) sem valor; 9 domínios catalogados
+  auditoria/perfil-2024.json
+  auditoria/dominios-observados-2024.json
+```
 
 ## Como biblioteca
 
@@ -163,6 +186,59 @@ print(resultado.resumo())  # gravado — 1303447 linhas, 11.8 MB
 A escrita é **atômica** (falha no meio não deixa arquivo truncado nem apaga o Parquet anterior) e
 **idempotente**: rodar de novo sobre o mesmo CSV devolve `EM_CACHE` em milissegundos, sem reler
 nada. Passe `forcar=True` para regravar.
+
+### Perfilar
+
+O `Perfilador` mede cada bloco e o devolve intacto, então ele entra no meio do caminho — o arquivo
+continua sendo lido uma vez só:
+
+```python
+from samp_dq.ingest import LeitorCsv, Normalizador, chave_do_insumo, escrever_parquet
+from samp_dq.perfil import Perfilador, gravar_dominios_observados, gravar_perfil
+
+leitor = LeitorCsv("bruto/samp-2024.csv")
+normalizador = Normalizador()
+perfilador = Perfilador()
+
+escrever_parquet(
+    perfilador.perfilar_blocos(normalizador.normalizar_blocos(leitor.blocos())),
+    "preprocessado/2024/samp-2024.parquet",
+    chave=chave_do_insumo("bruto/samp-2024.csv"),
+)
+
+perfil = perfilador.perfil(
+    arquivo="bruto/samp-2024.csv",
+    leitura=leitor.relatorio,
+    normalizacao=normalizador.relatorio,
+)
+gravar_perfil(perfil, "preprocessado/2024")
+gravar_dominios_observados(perfil, "preprocessado/2024")
+```
+
+Para um Parquet já gravado, `perfilar_parquet("bruto/samp-2024.parquet")` faz o mesmo em lotes.
+
+O perfil **descreve, não julga**: ele conta o que existe no arquivo e não decide se está certo.
+Dizer que `"CATIVO"` viola o domínio é papel da validação — aqui `"CATIVO"` é só mais um valor com
+sua contagem. `perfil-{ano}.json` traz linhas totais e descartadas, nulos e vazios por campo,
+cardinalidades, linhas por competência, a distribuição de `VlrMercado` (global e por
+`DscDetalheMercado`, porque a unidade muda com ele) e o registro das normalizações aplicadas.
+`dominios-observados-{ano}.json` traz os valores distintos de cada campo de domínio, com contagem:
+
+```python
+perfil.dominios_observados()["DscOpcaoEnergia"]
+# {'CATIVO': 1101132, 'GERAÇÃO': 106135, 'LIVRE': 74973, 'SUPRIMENTO': 11965, 'DISTRIBUIÇÃO': 9242}
+```
+
+Três detalhes que valem saber ao ler o JSON:
+
+- **Decimais vão como texto** (`"soma": "1246599647684.22852"`). Como número JSON, `float`
+  truncaria os 20 dígitos que a tipagem preservou; reconstrua com `Decimal(valor)`.
+- **A mediana é amostral.** Mínimo, máximo e soma são exatos; a mediana sai de uma amostra
+  uniforme de 200 mil valores, com semente fixa (mesmo arquivo, mesmo número). Quando o arquivo
+  todo cabe na amostra, `medianaExata` é `true`.
+- **A contagem de distintos tem teto.** Um campo com mais de 200 mil valores distintos entra em
+  `cardinalidadesTruncadas` e fica de fora dos domínios observados — meia contagem calibraria mal
+  as listas de referência.
 
 ## Trabalhando com o Parquet
 
@@ -255,6 +331,10 @@ Medido com os arquivos reais do portal:
 
 Pico de 666 MB de memória, independentemente do tamanho do arquivo — é o que o processamento em
 blocos garante.
+
+O perfilamento entra de carona nessa passada. Sozinho, sobre o Parquet de 2024 (1,3 milhão de
+linhas), leva **0,5 s** e produz um `perfil-2024.json` de 8 KB — pequeno o bastante para caber
+inteiro num prompt.
 
 ## Desenvolvimento
 
