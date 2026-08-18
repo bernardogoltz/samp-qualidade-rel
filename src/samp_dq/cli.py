@@ -17,7 +17,7 @@ from typing import Annotated, Any, Literal, NoReturn
 import typer
 
 from samp_dq import __version__
-from samp_dq.artefatos import NOME_PERFIL, caminho_artefato, ler_json
+from samp_dq.artefatos import NOME_PERFIL, NOME_RESULTADO, caminho_artefato, ler_json
 from samp_dq.ckan import CkanClient, Dataset, Formato, Recurso
 from samp_dq.ckan.download import ResultadoDownload, StatusDownload, baixar_recurso
 from samp_dq.errors import SampDQError
@@ -31,6 +31,7 @@ from samp_dq.perfil import (
     gravar_perfil,
     perfilar_parquet,
 )
+from samp_dq.qualidade import gravar_resultado, validar
 
 app = typer.Typer(
     name="samp-dq",
@@ -203,10 +204,10 @@ def perfilar(
     ] = None,
     forcar: Annotated[bool, typer.Option("--forcar", help="Ignora o cache local.")] = False,
 ) -> None:
-    """Converte o CSV para Parquet e grava o perfil do arquivo.
+    """Converte o CSV para Parquet, grava o perfil e valida o catálogo de regras.
 
     Numa passada só: lê, normaliza, grava `samp-{ano}.parquet`, mede e escreve
-    `perfil-{ano}.json` e `dominios-observados-{ano}.json` na pasta de saída.
+    `perfil-{ano}.json`, `dominios-observados-{ano}.json` e `resultado-{ano}.json`.
     """
     if not entrada.exists():
         _falhar(f"não encontrei {entrada}")
@@ -214,7 +215,8 @@ def perfilar(
     ano = ano if ano is not None else ano_do_arquivo(entrada)
     chave = chave_do_insumo(entrada)
 
-    if not forcar and _perfil_em_cache(saida, ano, chave):
+    em_cache = _perfil_em_cache(saida, ano, chave) and _resultado_em_cache(saida, ano, chave)
+    if not forcar and em_cache:
         typer.echo(f"perfil-{ano}.json: em cache (insumo inalterado)")
         return
 
@@ -226,6 +228,14 @@ def perfilar(
     typer.echo(perfil.resumo())
     for caminho in (gravar_perfil(perfil, saida), gravar_dominios_observados(perfil, saida)):
         typer.echo(f"  {caminho}")
+
+    parquet = entrada if entrada.suffix.lower() == ".parquet" else saida / f"samp-{ano}.parquet"
+    try:
+        resultado = validar(perfil, parquet)
+    except SampDQError as erro:
+        _falhar(str(erro))
+    typer.echo(resultado.resumo())
+    typer.echo(f"  {gravar_resultado(resultado, saida)}")
 
 
 def _perfilar(entrada: Path, saida: Path, ano: int | None, chave: str, forcar: bool) -> Perfil:
@@ -268,6 +278,55 @@ def _perfil_em_cache(saida: Path, ano: int | None, chave: str) -> bool:
     if not anterior or not chave:
         return False
     return bool(anterior.get("origem", {}).get("chaveInsumo") == chave)
+
+
+def _resultado_em_cache(saida: Path, ano: int | None, chave: str) -> bool:
+    anterior = ler_json(caminho_artefato(saida, NOME_RESULTADO, ano))
+    if not anterior or not chave:
+        return False
+    return bool(anterior.get("origem", {}).get("chaveInsumo") == chave)
+
+
+@app.command("validar")
+def validar_cmd(
+    entrada: Annotated[
+        Path, typer.Option("--entrada", help="Parquet do SAMP (ou CSV já perfilado na --saida).")
+    ],
+    saida: Annotated[Path, typer.Option("--saida", help="Pasta dos artefatos.")] = Path(
+        "preprocessado"
+    ),
+    ano: Annotated[
+        int | None, typer.Option("--ano", help="Ano do arquivo; padrão: o do nome.")
+    ] = None,
+) -> None:
+    """Aplica o catálogo de regras ao Parquet e grava `resultado-{ano}.json`."""
+    if not entrada.exists():
+        _falhar(f"não encontrei {entrada}")
+
+    ano = ano if ano is not None else ano_do_arquivo(entrada)
+    parquet = entrada if entrada.suffix.lower() == ".parquet" else saida / f"samp-{ano}.parquet"
+    if not parquet.exists():
+        _falhar(f"não encontrei {parquet}; rode `samp-dq perfilar` antes")
+
+    try:
+        perfil = perfilar_parquet(parquet, ano=ano)
+        if entrada.suffix.lower() != ".parquet":
+            perfil = perfilador_com_origem(perfil, entrada)
+        resultado = validar(perfil, parquet)
+    except SampDQError as erro:
+        _falhar(str(erro))
+
+    typer.echo(resultado.resumo())
+    typer.echo(f"  {gravar_resultado(resultado, saida)}")
+
+
+def perfilador_com_origem(perfil: Perfil, csv: Path) -> Perfil:
+    """Troca a origem do perfil do Parquet pela do CSV, quando a validação partiu dele."""
+    from dataclasses import replace
+
+    return replace(
+        perfil, arquivo=csv.name, origem=Origem.do_arquivo(csv, chave=chave_do_insumo(csv))
+    )
 
 
 def _barra(recurso: Recurso) -> Any:

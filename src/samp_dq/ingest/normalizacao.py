@@ -151,6 +151,10 @@ class Normalizador:
 
     def normalizar(self, bloco: pd.DataFrame) -> pd.DataFrame:
         """Devolve o bloco tipado, com as colunas do esquema na ordem e as `_raw` no fim."""
+        # Cada chunk do pandas traz o índice do arquivo (250000, 250001, …). Data, inteiro e
+        # decimal nascem com RangeIndex 0..n-1; montar o DataFrame com o índice original
+        # alinhavaria nada e anularia esses campos do 2º bloco em diante.
+        bloco = bloco.reset_index(drop=True)
         offset = self._processadas
         colunas: dict[str, pd.Series[Any]] = {}
         cruas: dict[str, pd.Series[Any]] = {}
@@ -166,7 +170,7 @@ class Normalizador:
 
         self._processadas += len(bloco)
         self._relatorio.linhas += len(bloco)
-        return pd.DataFrame({**colunas, **cruas}, index=bloco.index).reset_index(drop=True)
+        return pd.DataFrame({**colunas, **cruas})
 
     def _aparar(self, nome: str, valores: pd.Series[Any]) -> pd.Series[Any]:
         """Remove espaço de preenchimento, contando quantos valores mudaram."""

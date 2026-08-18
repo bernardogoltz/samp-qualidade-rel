@@ -1,0 +1,332 @@
+{
+  "arquivo": "samp-2024.csv",
+  "ano": 2024,
+  "geradoEm": "2026-08-18T16:08:42.635211+00:00",
+  "origem": {
+    "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/ff80dd21-eade-4eb5-9ca8-d802c883940e/download/samp-2024.csv",
+    "lastModifiedCkan": "2026-07-28T15:53:26.685626+00:00",
+    "tamanhoBytes": 369234945,
+    "chaveInsumo": "bfa6714a44665d871dafb79575c16f270214569e210b24081fcde747d393144c"
+  },
+  "linhasTotais": 1303447,
+  "linhasDescartadas": 0,
+  "camposAusentes": [],
+  "nulosPorCampo": {
+    "IdeNucleoCeg": 3862
+  },
+  "vaziosPorCampo": {
+    "NumCNPJAgenteAcessante": 74052
+  },
+  "cardinalidades": {
+    "DatGeracaoConjuntoDados": 1,
+    "NumCNPJAgenteDistribuidora": 103,
+    "SigAgenteDistribuidora": 103,
+    "NomAgenteDistribuidora": 103,
+    "NomTipoMercado": 13,
+    "DscModalidadeTarifaria": 7,
+    "DscSubGrupoTarifario": 11,
+    "DscClasseConsumoMercado": 10,
+    "DscSubClasseConsumidor": 14,
+    "DscDetalheConsumidor": 12,
+    "IdeNucleoCeg": 1514,
+    "NumCNPJAgenteAcessante": 102,
+    "NomAgenteAcessante": 1543,
+    "DscPostoTarifario": 4,
+    "DscOpcaoEnergia": 5,
+    "DscDetalheMercado": 25,
+    "DatCompetencia": 12
+  },
+  "cardinalidadesTruncadas": [],
+  "periodoCompetencia": {
+    "min": "2024-01-01",
+    "max": "2024-12-01"
+  },
+  "competencias": {
+    "2024-01-01": 101506,
+    "2024-02-01": 101484,
+    "2024-03-01": 102496,
+    "2024-04-01": 104210,
+    "2024-05-01": 103940,
+    "2024-06-01": 103772,
+    "2024-07-01": 112217,
+    "2024-08-01": 112903,
+    "2024-09-01": 113313,
+    "2024-10-01": 116874,
+    "2024-11-01": 115340,
+    "2024-12-01": 115392
+  },
+  "distribuicaoVlrMercado": {
+    "contagem": 1303447,
+    "nulos": 0,
+    "min": "-7874980787.000000",
+    "max": "7875192117.000000",
+    "soma": "1246599647684.228502",
+    "media": 956386.909237,
+    "negativos": 128486,
+    "zeros": 0,
+    "mediana": 2158.27,
+    "medianaExata": false
+  },
+  "distribuicaoPorDetalheMercado": {
+    "COFINS (R$)": {
+      "contagem": 74403,
+      "nulos": 0,
+      "min": "-108498209.000000",
+      "max": "108697613.000000",
+      "soma": "8966049417.120000",
+      "media": 120506.557761,
+      "negativos": 11675,
+      "zeros": 0
+    },
+    "Demanda Contratada kW": {
+      "contagem": 17292,
+      "nulos": 0,
+      "min": "-408000.000000",
+      "max": "14607039.000000",
+      "soma": "388217466.000000",
+      "media": 22450.697779,
+      "negativos": 6,
+      "zeros": 0
+    },
+    "Demanda Faturada (kW)": {
+      "contagem": 66529,
+      "nulos": 0,
+      "min": "-25200327.000000",
+      "max": "25234333.000000",
+      "soma": "1510340936.244000",
+      "media": 22701.993661,
+      "negativos": 3723,
+      "zeros": 0
+    },
+    "Desconto Demanda %": {
+      "contagem": 20962,
+      "nulos": 0,
+      "min": "-2826.491473",
+      "max": "914.143249",
+      "soma": "1067294.019559",
+      "media": 50.915658,
+      "negativos": 99,
+      "zeros": 0
+    },
+    "Desconto Energia TE %": {
+      "contagem": 8303,
+      "nulos": 0,
+      "min": "-56.695926",
+      "max": "540.000000",
+      "soma": "510095.729416",
+      "media": 61.435111,
+      "negativos": 12,
+      "zeros": 0
+    },
+    "Desconto Energia TUSD %": {
+      "contagem": 9837,
+      "nulos": 0,
+      "min": "-5637.862185",
+      "max": "4174.666038",
+      "soma": "583989.380760",
+      "media": 59.366614,
+      "negativos": 46,
+      "zeros": 0
+    },
+    "Desconto de energia compensada %": {
+      "contagem": 49463,
+      "nulos": 0,
+      "min": "-51.490000",
+      "max": "1346.530000",
+      "soma": "4648239.440767",
+      "media": 93.97407,
+      "negativos": 8,
+      "zeros": 0
+    },
+    "Energia Consumida (kWh)": {
+      "contagem": 57922,
+      "nulos": 0,
+      "min": "-204930442.000000",
+      "max": "267134232.000000",
+      "soma": "51601006631.520000",
+      "media": 890870.595482,
+      "negativos": 5204,
+      "zeros": 0
+    },
+    "Energia Injetada (kWh)": {
+      "contagem": 39103,
+      "nulos": 0,
+      "min": "-7874980787.000000",
+      "max": "7875192117.000000",
+      "soma": "37510235241.570000",
+      "media": 959267.453688,
+      "negativos": 3006,
+      "zeros": 0
+    },
+    "Energia TE (kWh)": {
+      "contagem": 125030,
+      "nulos": 0,
+      "min": "-244094413.000000",
+      "max": "1318783997.000000",
+      "soma": "305802165923.750000",
+      "media": 2445830.328111,
+      "negativos": 16050,
+      "zeros": 0
+    },
+    "Energia TUSD (kWh)": {
+      "contagem": 137123,
+      "nulos": 0,
+      "min": "-343839564.000000",
+      "max": "1318783997.000000",
+      "soma": "493258367950.700000",
+      "media": 3597196.443709,
+      "negativos": 16676,
+      "zeros": 0
+    },
+    "Energia compensada (kWh)": {
+      "contagem": 49976,
+      "nulos": 0,
+      "min": "-28142843.000000",
+      "max": "210236572.000000",
+      "soma": "31405911258.560000",
+      "media": 628419.866707,
+      "negativos": 3794,
+      "zeros": 0
+    },
+    "Energia debitada do SCEE (kWh)": {
+      "contagem": 29411,
+      "nulos": 0,
+      "min": "-27596398.000000",
+      "max": "43638718.000000",
+      "soma": "8333276903.000000",
+      "media": 283338.78151,
+      "negativos": 2859,
+      "zeros": 0
+    },
+    "ICMS (R$)": {
+      "contagem": 85653,
+      "nulos": 0,
+      "min": "-957051295.000000",
+      "max": "958809836.000000",
+      "soma": "54803026437.670000",
+      "media": 639826.117447,
+      "negativos": 11906,
+      "zeros": 0
+    },
+    "Número de Consumidores": {
+      "contagem": 26896,
+      "nulos": 0,
+      "min": "-75.000000",
+      "max": "4812.000000",
+      "soma": "699563.000000",
+      "media": 26.009927,
+      "negativos": 60,
+      "zeros": 0
+    },
+    "Número de consumidores": {
+      "contagem": 78894,
+      "nulos": 0,
+      "min": "-478957.000000",
+      "max": "6360817.000000",
+      "soma": "1116979385.000000",
+      "media": 14157.976335,
+      "negativos": 6348,
+      "zeros": 0
+    },
+    "PIS/COFINS (R$)": {
+      "contagem": 24183,
+      "nulos": 0,
+      "min": "-2335047.480000",
+      "max": "46574479.230000",
+      "soma": "2112649945.850000",
+      "media": 87360.953804,
+      "negativos": 438,
+      "zeros": 0
+    },
+    "PIS/PASEP (R$)": {
+      "contagem": 74176,
+      "nulos": 0,
+      "min": "-23639276.000000",
+      "max": "23682714.000000",
+      "soma": "1937387272.830000",
+      "media": 26118.78873,
+      "negativos": 11618,
+      "zeros": 0
+    },
+    "PROINFA (kWh)": {
+      "contagem": 296,
+      "nulos": 0,
+      "min": "-44214.000000",
+      "max": "1845543.000000",
+      "soma": "37853134.000000",
+      "media": 127882.209459,
+      "negativos": 18,
+      "zeros": 0
+    },
+    "Receita Bandeiras (R$)": {
+      "contagem": 49216,
+      "nulos": 0,
+      "min": "-16145043.000000",
+      "max": "80090666.000000",
+      "soma": "3737673447.650000",
+      "media": 75944.275188,
+      "negativos": 7617,
+      "zeros": 0
+    },
+    "Receita Demanda (R$)": {
+      "contagem": 66216,
+      "nulos": 0,
+      "min": "-966180522.000000",
+      "max": "967484314.000000",
+      "soma": "22097549337.580000",
+      "media": 333719.181732,
+      "negativos": 4045,
+      "zeros": 0
+    },
+    "Receita Energia (R$)": {
+      "contagem": 140650,
+      "nulos": 0,
+      "min": "-567684303.300000",
+      "max": "919153796.250000",
+      "soma": "217992813384.240000",
+      "media": 1549895.580407,
+      "negativos": 17564,
+      "zeros": 0
+    },
+    "Receita Ultrapassagem Demanda (R$)": {
+      "contagem": 26523,
+      "nulos": 0,
+      "min": "-1932327536.000000",
+      "max": "1932546139.000000",
+      "soma": "1283135370.690000",
+      "media": 48378.214029,
+      "negativos": 2004,
+      "zeros": 0
+    },
+    "Receita energia compensada (R$)": {
+      "contagem": 19109,
+      "nulos": 0,
+      "min": "-959798.320000",
+      "max": "47923133.990000",
+      "soma": "2667608323.380000",
+      "media": 139599.577339,
+      "negativos": 1744,
+      "zeros": 0
+    },
+    "Ultrapassagem Demanda (kW)": {
+      "contagem": 26281,
+      "nulos": 0,
+      "min": "-25199890.000000",
+      "max": "25202740.000000",
+      "soma": "29890735.304000",
+      "media": 1137.35152,
+      "negativos": 1966,
+      "zeros": 0
+    }
+  },
+  "normalizacoes": {
+    "encodingConvertido": "cp1252 -> utf-8",
+    "decimaisReparados": 1303447,
+    "decimaisSemParteInteira": 12615,
+    "camposTrimados": {
+      "NumCNPJAgenteAcessante": 1100947
+    },
+    "linhasMalformadas": 0,
+    "valoresIlegiveis": {}
+  }
+}

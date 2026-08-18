@@ -199,6 +199,7 @@ class TestPerfilar:
         assert (saida / "samp-2024.parquet").exists()
         assert (saida / "perfil-2024.json").exists()
         assert (saida / "dominios-observados-2024.json").exists()
+        assert (saida / "resultado-2024.json").exists()
 
     def test_o_perfil_traz_as_contagens_do_arquivo(
         self, runner: CliRunner, csv: Path, tmp_path: Path
@@ -275,6 +276,31 @@ class TestPerfilar:
         assert resultado.exit_code == 1
         assert "cabeçalho" in resultado.output.lower()
         assert "Traceback" not in resultado.output
+
+
+class TestValidar:
+    @pytest.fixture
+    def csv(self, tmp_path: Path) -> Path:
+        destino = tmp_path / "bruto" / "samp-2024.csv"
+        destino.parent.mkdir()
+        destino.write_bytes(FIXTURE_CSV.read_bytes())
+        return destino
+
+    def test_grava_resultado_a_partir_do_parquet(
+        self, runner: CliRunner, csv: Path, tmp_path: Path
+    ) -> None:
+        saida = tmp_path / "preprocessado"
+        runner.invoke(cli.app, ["perfilar", "--entrada", str(csv), "--saida", str(saida)])
+        (saida / "resultado-2024.json").unlink()
+
+        resultado = runner.invoke(
+            cli.app,
+            ["validar", "--entrada", str(saida / "samp-2024.parquet"), "--saida", str(saida)],
+        )
+
+        assert resultado.exit_code == 0, resultado.output
+        assert (saida / "resultado-2024.json").exists()
+        assert "score" in resultado.stdout.lower()
 
 
 class TestVersao:

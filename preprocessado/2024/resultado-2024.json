@@ -1,0 +1,899 @@
+{
+  "execucaoId": "2026-08-18T16:08:56Z-samp-2024",
+  "arquivo": "samp-2024.csv",
+  "ano": 2024,
+  "geradoEm": "2026-08-18T16:08:56.374231+00:00",
+  "linhasTotais": 1303447,
+  "origem": {
+    "url": "https://dadosabertos.aneel.gov.br/dataset/3e153db4-a503-4093-88be-75d31b002dcf/resource/ff80dd21-eade-4eb5-9ca8-d802c883940e/download/samp-2024.csv",
+    "lastModifiedCkan": "2026-07-28T15:53:26.685626+00:00",
+    "tamanhoBytes": 369234945,
+    "chaveInsumo": "bfa6714a44665d871dafb79575c16f270214569e210b24081fcde747d393144c"
+  },
+  "perfil": {
+    "nulosPorCampo": {
+      "IdeNucleoCeg": 3862
+    },
+    "cardinalidades": {
+      "DatGeracaoConjuntoDados": 1,
+      "NumCNPJAgenteDistribuidora": 103,
+      "SigAgenteDistribuidora": 103,
+      "NomAgenteDistribuidora": 103,
+      "NomTipoMercado": 13,
+      "DscModalidadeTarifaria": 7,
+      "DscSubGrupoTarifario": 11,
+      "DscClasseConsumoMercado": 10,
+      "DscSubClasseConsumidor": 14,
+      "DscDetalheConsumidor": 12,
+      "IdeNucleoCeg": 1514,
+      "NumCNPJAgenteAcessante": 102,
+      "NomAgenteAcessante": 1543,
+      "DscPostoTarifario": 4,
+      "DscOpcaoEnergia": 5,
+      "DscDetalheMercado": 25,
+      "DatCompetencia": 12
+    },
+    "periodoCompetencia": {
+      "min": "2024-01-01",
+      "max": "2024-12-01"
+    }
+  },
+  "regras": [
+    {
+      "id": "DQ-COM-001",
+      "dimensao": "completude",
+      "severidade": "erro",
+      "status": "falha",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 77914,
+      "percentualViolacao": 0.059775,
+      "exemplos": [
+        {
+          "linha": 521,
+          "campo": "registro",
+          "valor": ""
+        },
+        {
+          "linha": 522,
+          "campo": "registro",
+          "valor": ""
+        },
+        {
+          "linha": 525,
+          "campo": "registro",
+          "valor": ""
+        },
+        {
+          "linha": 526,
+          "campo": "registro",
+          "valor": ""
+        },
+        {
+          "linha": 529,
+          "campo": "registro",
+          "valor": ""
+        }
+      ]
+    },
+    {
+      "id": "DQ-COM-002",
+      "dimensao": "completude",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-COM-003",
+      "dimensao": "completude",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-COM-004",
+      "dimensao": "completude",
+      "severidade": "aviso",
+      "status": "ok",
+      "linhasAvaliadas": 1,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-COM-005",
+      "dimensao": "completude",
+      "severidade": "aviso",
+      "status": "ok",
+      "linhasAvaliadas": 11,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-001",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-002",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-003",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "falha",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 727,
+      "percentualViolacao": 0.000558,
+      "exemplos": [
+        {
+          "linha": 22622,
+          "campo": "DscSubGrupoTarifario",
+          "valor": "B"
+        },
+        {
+          "linha": 31223,
+          "campo": "DscSubGrupoTarifario",
+          "valor": "B"
+        },
+        {
+          "linha": 33311,
+          "campo": "DscSubGrupoTarifario",
+          "valor": "B"
+        },
+        {
+          "linha": 33321,
+          "campo": "DscSubGrupoTarifario",
+          "valor": "B"
+        },
+        {
+          "linha": 33601,
+          "campo": "DscSubGrupoTarifario",
+          "valor": "B"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-004",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso_defasagem",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 1303447,
+      "percentualViolacao": 1.0,
+      "exemplos": [
+        {
+          "linha": 1,
+          "campo": "NomTipoMercado",
+          "valor": "Regular"
+        },
+        {
+          "linha": 2,
+          "campo": "NomTipoMercado",
+          "valor": "Sistema de Compensação GD I"
+        },
+        {
+          "linha": 3,
+          "campo": "NomTipoMercado",
+          "valor": "Regular"
+        },
+        {
+          "linha": 4,
+          "campo": "NomTipoMercado",
+          "valor": "Sistema de Compensação GD I"
+        },
+        {
+          "linha": 5,
+          "campo": "NomTipoMercado",
+          "valor": "Regular"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-005",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso_defasagem",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 96,
+      "percentualViolacao": 7.4e-05,
+      "exemplos": [
+        {
+          "linha": 22510,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Serviço Público"
+        },
+        {
+          "linha": 22514,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Serviço Público"
+        },
+        {
+          "linha": 22518,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Serviço Público"
+        },
+        {
+          "linha": 22522,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Serviço Público"
+        },
+        {
+          "linha": 22526,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Serviço Público"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-006",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso_defasagem",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 125256,
+      "percentualViolacao": 0.096096,
+      "exemplos": [
+        {
+          "linha": 13,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Residencial baixa renda – faixa 03"
+        },
+        {
+          "linha": 28,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Residencial baixa renda – faixa 02"
+        },
+        {
+          "linha": 32,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Residencial baixa renda – faixa 02"
+        },
+        {
+          "linha": 35,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Residencial baixa renda – faixa 03"
+        },
+        {
+          "linha": 39,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Residencial baixa renda – faixa 03"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-007",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso_defasagem",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 92011,
+      "percentualViolacao": 0.070591,
+      "exemplos": [
+        {
+          "linha": 126,
+          "campo": "DscDetalheConsumidor",
+          "valor": "IRRIG./AQUIC. PR"
+        },
+        {
+          "linha": 154,
+          "campo": "DscDetalheConsumidor",
+          "valor": "IRRIG./AQUIC. PR"
+        },
+        {
+          "linha": 158,
+          "campo": "DscDetalheConsumidor",
+          "valor": "IRRIG./AQUIC. PR"
+        },
+        {
+          "linha": 159,
+          "campo": "DscDetalheConsumidor",
+          "valor": "IRRIG./AQUIC."
+        },
+        {
+          "linha": 162,
+          "campo": "DscDetalheConsumidor",
+          "valor": "IRRIG./AQUIC."
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-008",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-009",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 1303447,
+      "percentualViolacao": 1.0,
+      "exemplos": [
+        {
+          "linha": 1,
+          "campo": "DscOpcaoEnergia",
+          "valor": "CATIVO"
+        },
+        {
+          "linha": 2,
+          "campo": "DscOpcaoEnergia",
+          "valor": "CATIVO"
+        },
+        {
+          "linha": 3,
+          "campo": "DscOpcaoEnergia",
+          "valor": "CATIVO"
+        },
+        {
+          "linha": 4,
+          "campo": "DscOpcaoEnergia",
+          "valor": "CATIVO"
+        },
+        {
+          "linha": 5,
+          "campo": "DscOpcaoEnergia",
+          "valor": "CATIVO"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-010",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-011",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1229395,
+      "linhasViolacao": 1207082,
+      "percentualViolacao": 0.98185,
+      "exemplos": [
+        {
+          "linha": 1,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "37121669900"
+        },
+        {
+          "linha": 2,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "37121669900"
+        },
+        {
+          "linha": 3,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "37121669900"
+        },
+        {
+          "linha": 4,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "37121669900"
+        },
+        {
+          "linha": 5,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "37121669900"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-012",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "ok",
+      "linhasAvaliadas": 19473791,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-013",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1299585,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-014",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "falha",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 12615,
+      "percentualViolacao": 0.009678,
+      "exemplos": [
+        {
+          "campo": "VlrMercado_raw",
+          "valor": "sem parte inteira"
+        }
+      ]
+    },
+    {
+      "id": "DQ-VAL-015",
+      "dimensao": "conformidade",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-VAL-016",
+      "dimensao": "conformidade",
+      "severidade": "aviso",
+      "status": "aviso_defasagem",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 622,
+      "percentualViolacao": 0.000477,
+      "exemplos": [
+        {
+          "linha": 24186,
+          "campo": "DscModalidadeTarifaria",
+          "valor": "Energia Fotovoltaica (Res. 083/2004)"
+        },
+        {
+          "linha": 30716,
+          "campo": "DscModalidadeTarifaria",
+          "valor": "Energia Fotovoltaica (Res. 083/2004)"
+        },
+        {
+          "linha": 31926,
+          "campo": "DscModalidadeTarifaria",
+          "valor": "Energia Fotovoltaica (Res. 083/2004)"
+        },
+        {
+          "linha": 35856,
+          "campo": "DscModalidadeTarifaria",
+          "valor": "Energia Fotovoltaica (Res. 083/2004)"
+        },
+        {
+          "linha": 35860,
+          "campo": "DscModalidadeTarifaria",
+          "valor": "Energia Fotovoltaica (Res. 083/2004)"
+        }
+      ]
+    },
+    {
+      "id": "DQ-UNI-001",
+      "dimensao": "unicidade",
+      "severidade": "erro",
+      "status": "falha",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 15,
+      "percentualViolacao": 1.2e-05,
+      "exemplos": [
+        {
+          "linha": 17907,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 480217,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 524486,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 760162,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 828539,
+          "campo": "chave",
+          "valor": ""
+        }
+      ]
+    },
+    {
+      "id": "DQ-UNI-002",
+      "dimensao": "unicidade",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 806,
+      "percentualViolacao": 0.000618,
+      "exemplos": [
+        {
+          "linha": 589,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 5942,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 8843,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 14044,
+          "campo": "chave",
+          "valor": ""
+        },
+        {
+          "linha": 16962,
+          "campo": "chave",
+          "valor": ""
+        }
+      ]
+    },
+    {
+      "id": "DQ-UNI-003",
+      "dimensao": "unicidade",
+      "severidade": "aviso",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-CON-001",
+      "dimensao": "consistencia",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-CON-002",
+      "dimensao": "consistencia",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 8,
+      "percentualViolacao": 6e-06,
+      "exemplos": [
+        {
+          "linha": 637210,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Comercial"
+        },
+        {
+          "linha": 637214,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Comercial"
+        },
+        {
+          "linha": 643816,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Comercial"
+        },
+        {
+          "linha": 643820,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Comercial"
+        },
+        {
+          "linha": 643838,
+          "campo": "DscClasseConsumoMercado",
+          "valor": "Comercial"
+        }
+      ]
+    },
+    {
+      "id": "DQ-CON-003",
+      "dimensao": "consistencia",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 96,
+      "percentualViolacao": 7.4e-05,
+      "exemplos": [
+        {
+          "linha": 22510,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Água, esgoto e saneamento"
+        },
+        {
+          "linha": 22514,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Água, esgoto e saneamento"
+        },
+        {
+          "linha": 22518,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Água, esgoto e saneamento"
+        },
+        {
+          "linha": 22522,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Água, esgoto e saneamento"
+        },
+        {
+          "linha": 22526,
+          "campo": "DscSubClasseConsumidor",
+          "valor": "Água, esgoto e saneamento"
+        }
+      ]
+    },
+    {
+      "id": "DQ-CON-004",
+      "dimensao": "consistencia",
+      "severidade": "erro",
+      "status": "ok",
+      "linhasAvaliadas": 1,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-CON-005",
+      "dimensao": "consistencia",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1325760,
+      "linhasViolacao": 634,
+      "percentualViolacao": 0.000478,
+      "exemplos": [
+        {
+          "linha": 27762,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "20364830000000"
+        },
+        {
+          "linha": 30639,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "00000000000000"
+        },
+        {
+          "linha": 30640,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "00000000000000"
+        },
+        {
+          "linha": 54325,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "00000000000000"
+        },
+        {
+          "linha": 54329,
+          "campo": "NumCNPJAgenteAcessante",
+          "valor": "00000000000000"
+        }
+      ]
+    },
+    {
+      "id": "DQ-CON-006",
+      "dimensao": "consistencia",
+      "severidade": "info",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-CON-007",
+      "dimensao": "consistencia",
+      "severidade": "aviso",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-CON-008",
+      "dimensao": "consistencia",
+      "severidade": "info",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": []
+    },
+    {
+      "id": "DQ-ACU-001",
+      "dimensao": "acuracia",
+      "severidade": "erro",
+      "status": "falha",
+      "linhasAvaliadas": 88565,
+      "linhasViolacao": 397,
+      "percentualViolacao": 0.004483,
+      "exemplos": [
+        {
+          "linha": 170,
+          "campo": "VlrMercado",
+          "valor": "132.780000"
+        },
+        {
+          "linha": 3225,
+          "campo": "VlrMercado",
+          "valor": "-2.524914"
+        },
+        {
+          "linha": 3235,
+          "campo": "VlrMercado",
+          "valor": "-2826.491473"
+        },
+        {
+          "linha": 4577,
+          "campo": "VlrMercado",
+          "valor": "-7.644994"
+        },
+        {
+          "linha": 5303,
+          "campo": "VlrMercado",
+          "valor": "-0.001000"
+        }
+      ]
+    },
+    {
+      "id": "DQ-ACU-002",
+      "dimensao": "acuracia",
+      "severidade": "aviso",
+      "status": "aviso",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 1640,
+      "percentualViolacao": 0.001258,
+      "exemplos": [
+        {
+          "linha": 113,
+          "campo": "VlrMercado",
+          "valor": "-112.000000"
+        },
+        {
+          "linha": 397,
+          "campo": "VlrMercado",
+          "valor": "-54688.500000"
+        },
+        {
+          "linha": 765,
+          "campo": "VlrMercado",
+          "valor": "-117.000000"
+        },
+        {
+          "linha": 1007,
+          "campo": "VlrMercado",
+          "valor": "-13.000000"
+        },
+        {
+          "linha": 1398,
+          "campo": "VlrMercado",
+          "valor": "-0.010000"
+        }
+      ]
+    },
+    {
+      "id": "DQ-ACU-003",
+      "dimensao": "acuracia",
+      "severidade": "info",
+      "status": "ok",
+      "linhasAvaliadas": 1303447,
+      "linhasViolacao": 287782,
+      "percentualViolacao": 0.220785,
+      "exemplos": [
+        {
+          "campo": "VlrMercado",
+          "valor": "Energia TUSD (kWh)/A4: 12781 além de 6 MAD"
+        },
+        {
+          "campo": "VlrMercado",
+          "valor": "Receita Demanda (R$)/A4: 8576 além de 6 MAD"
+        },
+        {
+          "campo": "VlrMercado",
+          "valor": "Demanda Faturada (kW)/A4: 7140 além de 6 MAD"
+        },
+        {
+          "campo": "VlrMercado",
+          "valor": "Número de consumidores/A3a: 880 além de 6 MAD"
+        },
+        {
+          "campo": "VlrMercado",
+          "valor": "Energia TE (kWh)/B1: 7118 além de 6 MAD"
+        }
+      ]
+    },
+    {
+      "id": "DQ-ACU-004",
+      "dimensao": "acuracia",
+      "severidade": "info",
+      "status": "nao_aplicavel",
+      "linhasAvaliadas": 0,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": [],
+      "nota": "exige a série do ano anterior"
+    },
+    {
+      "id": "DQ-ACU-005",
+      "dimensao": "acuracia",
+      "severidade": "info",
+      "status": "nao_aplicavel",
+      "linhasAvaliadas": 0,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": [],
+      "nota": "exige o total anual do ano anterior"
+    },
+    {
+      "id": "DQ-ATU-001",
+      "dimensao": "atualidade",
+      "severidade": "aviso",
+      "status": "nao_aplicavel",
+      "linhasAvaliadas": 0,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": [],
+      "nota": "só se aplica ao arquivo do ano corrente"
+    },
+    {
+      "id": "DQ-ATU-002",
+      "dimensao": "atualidade",
+      "severidade": "aviso",
+      "status": "nao_aplicavel",
+      "linhasAvaliadas": 0,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": [],
+      "nota": "só se aplica ao arquivo do ano corrente"
+    },
+    {
+      "id": "DQ-ATU-003",
+      "dimensao": "atualidade",
+      "severidade": "info",
+      "status": "nao_aplicavel",
+      "linhasAvaliadas": 0,
+      "linhasViolacao": 0,
+      "percentualViolacao": 0.0,
+      "exemplos": [],
+      "nota": "só se aplica ao arquivo do ano corrente"
+    }
+  ],
+  "scores": {
+    "completude": 98.8,
+    "conformidade": 94.0,
+    "unicidade": 100.0,
+    "consistencia": 100.0,
+    "acuracia": 99.8,
+    "atualidade": 100.0
+  },
+  "scoreGeral": 98.8
+}

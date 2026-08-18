@@ -252,6 +252,31 @@ class TestRelatorio:
         assert "2 campos aparados" in normalizador.relatorio.resumo()
 
 
+class TestIndiceDoBloco:
+    """O pandas entrega cada chunk com o índice do arquivo (250000, 250001, …)."""
+
+    def test_indice_deslocado_nao_anula_tipos(self, normalizador: Normalizador) -> None:
+        cru = bloco(
+            VlrMercado=["1079,000000"],
+            DatCompetencia=["2024-11-01"],
+            IdeNucleoCeg=["0"],
+        )
+        cru.index = pd.RangeIndex(250_000, 250_001)
+        saida = normalizador.normalizar(cru)
+        assert saida["VlrMercado"].iloc[0] == Decimal("1079.000000")
+        assert saida["DatCompetencia"].iloc[0] == date(2024, 11, 1)
+        assert saida["IdeNucleoCeg"].iloc[0] == 0
+
+    def test_segundo_bloco_conserva_os_tipos(self, normalizador: Normalizador) -> None:
+        primeiro = bloco(VlrMercado=["1,5"], DatCompetencia=["2024-01-01"])
+        segundo = bloco(VlrMercado=["2,5"], DatCompetencia=["2024-11-01"])
+        segundo.index = pd.RangeIndex(len(primeiro), len(primeiro) + 1)
+        normalizador.normalizar(primeiro)
+        saida = normalizador.normalizar(segundo)
+        assert saida["VlrMercado"].iloc[0] == Decimal("2.500000")
+        assert saida["DatCompetencia"].iloc[0] == date(2024, 11, 1)
+
+
 class TestArquivoReal:
     def test_tipos_finais(self, real_normalizado: tuple[pd.DataFrame, Normalizador]) -> None:
         quadro, _ = real_normalizado

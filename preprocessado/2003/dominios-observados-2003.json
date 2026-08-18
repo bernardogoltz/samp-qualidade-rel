@@ -1,0 +1,97 @@
+{
+  "NomTipoMercado": {
+    "Regular": 218625,
+    "RTE": 61446,
+    "Refaturamento - Regular": 47899,
+    "Sistema Isolado - Regular": 17657,
+    "Sistema Isolado - Refaturamento": 5726
+  },
+  "DscModalidadeTarifaria": {
+    "Convencional": 174216,
+    "Azul": 97124,
+    "Verde": 71576,
+    "Com Controlador de Demanda": 2461,
+    "Geração": 1832,
+    "Tarifa Amarela": 1176,
+    "Distribuição": 1062,
+    "Tensão Secundária de Distribuição em 220 V": 894,
+    "Tensão Secundária de Distribuição em 127 V": 677,
+    "Tarifa de Emergência Horo-Sazonal Azul": 258,
+    "Tarifa de Emergência Horo-Sazonal Verde": 77
+  },
+  "DscSubGrupoTarifario": {
+    "A4": 169506,
+    "B1": 53498,
+    "B3": 34509,
+    "A3a": 33064,
+    "A3": 14253,
+    "A2": 12955,
+    "B2": 12248,
+    "AS": 9564,
+    "B4": 8105,
+    "A1": 2760,
+    "A4a": 382,
+    "A4c": 248,
+    "A4b": 158,
+    "B": 55,
+    "Não se aplica": 48
+  },
+  "DscClasseConsumoMercado": {
+    "Industrial": 77299,
+    "Residencial": 60656,
+    "Comercial": 53664,
+    "Rural": 53477,
+    "Serviço público": 41820,
+    "Poder público": 39618,
+    "Consumo próprio": 13274,
+    "Iluminação pública": 8047,
+    "Não se aplica": 3498
+  },
+  "DscSubClasseConsumidor": {
+    "Não se aplica": 220769,
+    "Água, esgoto e saneamento": 41666,
+    "Residencial baixa renda – faixa 03": 19175,
+    "Residencial": 16498,
+    "Residencial baixa renda – faixa 02": 12969,
+    "Agropecuária rural": 11809,
+    "Residencial baixa renda – faixa 01": 6066,
+    "Residencial baixa renda – faixa 04": 5948,
+    "Iluminação pública – B4a": 5511,
+    "Cooperativa de eletrificação rural": 5494,
+    "Serviço público de irrigação rural": 2854,
+    "Iluminação pública – B4b": 2594
+  },
+  "DscDetalheConsumidor": {
+    "Não se aplica": 343434,
+    "IRRIG./AQUIC. PR": 2742,
+    "Cooperativas autorizadas": 2452,
+    "IRRIG./AQUIC.": 1952,
+    "ERC": 604,
+    "Cooperativas autorizadas PR": 166,
+    "<500": 3
+  },
+  "DscPostoTarifario": {
+    "Não se aplica": 232156,
+    "Fora ponta": 60716,
+    "Ponta": 58481
+  },
+  "DscOpcaoEnergia": {
+    "CATIVO": 345638,
+    "LIVRE": 2821,
+    "GERAÇÃO": 1832,
+    "DISTRIBUIÇÃO": 1014,
+    "SUPRIMENTO": 48
+  },
+  "DscDetalheMercado": {
+    "Receita Energia (R$)": 73813,
+    "Energia TUSD (kWh)": 49195,
+    "Energia TE (kWh)": 48806,
+    "ICMS (R$)": 47829,
+    "Receita Demanda (R$)": 39784,
+    "Número de consumidores": 37574,
+    "Demanda Faturada (kW)": 24373,
+    "Receita Ultrapassagem Demanda (R$)": 18147,
+    "Ultrapassagem Demanda (kW)": 10571,
+    "Número de Consumidores": 1261
+  }
+}

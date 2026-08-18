@@ -17,11 +17,6 @@ htmlcov/
 
 # Dados baixados do SAMP (grandes; regeráveis via `samp-dq baixar`)
 bruto/
-preprocessado/
-*.csv
-*.parquet
-*.part
-*.samp-dq.json
 !tests/fixtures/**
 
 # macOS / editores
